@@ -7,17 +7,24 @@
     "createdAt": 1542107359455
   },
   {
-    "_id": "abc125",
-    "title": "Cannot load car",
-    "description": "problem when Loading",
-    "severity": 2,
-    "createdAt": 1542107359455
-  },
-  {
     "_id": "abc126",
     "title": "Cannot edit car",
     "description": "problem when clicking Edit",
     "severity": 6,
     "createdAt": 1542107359455
+  },
+  {
+    "_id": "xrYXZ",
+    "title": "hello",
+    "description": "test",
+    "severity": 3,
+    "createdAt": 1718644315005
+  },
+  {
+    "_id": "oLRWv",
+    "title": "Cannot Load Car",
+    "description": "Cannot load car details",
+    "severity": 5,
+    "createdAt": 1718644365479
   }
 ]

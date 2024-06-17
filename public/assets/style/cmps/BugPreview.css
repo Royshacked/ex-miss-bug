@@ -8,11 +8,11 @@
     border: 1px solid black;
 }
 
-.car-preview h4 {
+.bug-preview h4 {
     text-transform: capitalize;
     color: black;
 }
 
-.car-preview img {
+.bug-preview img {
     max-width: 100px;
 }

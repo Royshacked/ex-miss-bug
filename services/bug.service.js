@@ -15,7 +15,6 @@ function query() {
 
 function getById(bugId) {
     const bug = bugs.find(bug => bug._id === bugId)
-    console.log(bug)
     return Promise.resolve(bug)
 }
 
@@ -32,6 +31,7 @@ function save(bugToSave) {
         bugs.splice(idx, 1, bugToSave)
     } else {
         bugToSave._id = utilService.makeId()
+        bugToSave.createdAt = Date.now()
         bugs.push(bugToSave)
     }
 

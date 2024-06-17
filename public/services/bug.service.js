@@ -16,7 +16,6 @@ const BASE_URL = '/api/bug'
 function query() {
     return axios.get(BASE_URL)
         .then(res => res.data)
-        .then(bugs => bugs)
 }
 
 function getById(bugId) {
