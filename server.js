@@ -4,6 +4,9 @@ import { bugService } from './services/bug.service.js'
 
 const app = express()
 
+app.use(express.static('public'))
+
+
 app.get('/', ((req, res) => res.send('hello there')))
 app.listen(3030, () => console.log('Server is ready'))
 
@@ -13,8 +16,8 @@ app.get('/api/bug', ((req, res) => {
 }))
 
 app.get('api/bug/save', ((req, res) => {
-    const { _id, title, description, severity, createdAt } = req.query
-    const bugToSave = { _id, title, description, severity: +severity, createdAt: +createdAt }
+    const { _id, title, description, severity } = req.query
+    const bugToSave = { _id, title, description, severity: +severity, createdAt: +createdAt || Date.now() }
 
     bugService.save(bugToSave)
         .then(savedBug => res.send(savedBug))
@@ -33,6 +36,8 @@ app.get('api/bug/:id/remove', ((req, res) => {
     bugService.remove(id)
         .then(() => res.send('bug removed... '))
 }))
+
+
 
 
 

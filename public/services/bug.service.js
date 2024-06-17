@@ -11,20 +11,26 @@ export const bugService = {
     remove,
 }
 
+const BASE_URL = '/api/bug'
 
 function query() {
-    return storageService.query(STORAGE_KEY)
+    return axios.get(BASE_URL)
+        .then(res => res.data)
+        .then(bugs => bugs)
 }
+
 function getById(bugId) {
-    return storageService.get(STORAGE_KEY, bugId)
+    return axios.get(BASE_URL + '/' + bugId)
+        .then(res => res.data)
 }
+
 function remove(bugId) {
-    return storageService.remove(STORAGE_KEY, bugId)
+    return axios.get(BASE_URL + '/' + bugId + '/remove')
+        .then(res => res.data)
 }
+
 function save(bug) {
-    if (bug._id) {
-        return storageService.put(STORAGE_KEY, bug)
-    } else {
-        return storageService.post(STORAGE_KEY, bug)
-    }
+    const queryStr = `/save?title=${bug.title}&description=${bug.description}&severity=${bug.severity}&_id=${bug._id || ''}`
+    return axios.get(BASE_URL + queryStr)
+        .then(res => res.data)
 }
