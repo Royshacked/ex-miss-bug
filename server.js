@@ -20,4 +20,15 @@ app.get('api/bug/save', ((req, res) => {
         .then(savedBug => res.send(savedBug))
 }))
 
+app.get('api/bug/:id', ((req, res) => {
+    const { id } = req.params
+
+    bugService.getById(id)
+        .then(bug => res.send(bug))
+}))
+
+
+
+
+
 
