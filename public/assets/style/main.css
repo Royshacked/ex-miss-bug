@@ -8,6 +8,9 @@
 @import "base/layout.css";
 @import "base/forms.css";
 
+/* Pages */
+@import "pages/BugIndex.css";
+
 /* Components */
 @import "cmps/AppHeader.css";
 @import "cmps/UserMsg.css";

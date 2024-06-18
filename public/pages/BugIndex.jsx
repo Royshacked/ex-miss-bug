@@ -1,6 +1,7 @@
 import { bugService } from '../services/bug.service.js'
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
 import { BugList } from '../cmps/BugList.jsx'
+import { BugFilter } from '../cmps/BugFilter.jsx'
 
 const { useState, useEffect } = React
 
@@ -16,8 +17,7 @@ export function BugIndex() {
   }
 
   function onRemoveBug(bugId) {
-    bugService
-      .remove(bugId)
+    bugService.remove(bugId)
       .then(() => {
         console.log('Deleted Succesfully!')
         setBugs(prevBugs => prevBugs.filter((bug) => bug._id !== bugId))
@@ -35,8 +35,8 @@ export function BugIndex() {
       severity: +prompt('Bug severity?'),
       description: prompt('Bug description?'),
     }
-    bugService
-      .save(bug)
+
+    bugService.save(bug)
       .then((savedBug) => {
         console.log('Added Bug', savedBug)
         setBugs(prevBugs => [...prevBugs, savedBug])
@@ -51,8 +51,8 @@ export function BugIndex() {
   function onEditBug(bug) {
     const severity = +prompt('New severity?')
     const bugToSave = { ...bug, severity }
-    bugService
-      .save(bugToSave)
+
+    bugService.save(bugToSave)
       .then((savedBug) => {
         console.log('Updated Bug:', savedBug)
         setBugs(prevBugs => prevBugs.map((currBug) =>
@@ -67,8 +67,11 @@ export function BugIndex() {
   }
 
   return (
-    <main>
-      <h3>Bugs App</h3>
+    <main className='bug-index'>
+      <section className="bug-index-header">
+        <h3>Bugs App</h3>
+        <BugFilter />
+      </section>
       <main>
         <button onClick={onAddBug}>Add Bug ⛐</button>
         <BugList bugs={bugs} onRemoveBug={onRemoveBug} onEditBug={onEditBug} />
