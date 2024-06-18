@@ -17,7 +17,7 @@ export function BugFilter({ filterBy, onSetNewFilter }) {
     }
 
     return <section className="bug-filter">
-        <input type="text" name="title" placeholder="Filter by Title..." onChange={handleChange} value={filterByToEdit.title} />
-        <input type="number" name="severity" min="1" max="7" placeholder="1" onChange={handleChange} value={filterByToEdit.severity} />
+        <input type="text" name="txt" placeholder="Filter by Title..." onChange={handleChange} value={filterByToEdit.txt} />
+        <input type="number" name="minSeverity" min="1" max="7" placeholder="1" onChange={handleChange} value={filterByToEdit.minSeverity} />
     </section>
 }

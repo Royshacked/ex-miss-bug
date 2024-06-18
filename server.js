@@ -13,7 +13,9 @@ app.get('/', ((req, res) => res.send('hello there')))
 app.listen(3030, () => console.log('Server is ready'))
 
 app.get('/api/bug', ((req, res) => {
-    bugService.query()
+    const filterBy = req.query
+
+    bugService.query(filterBy)
         .then(bugs => res.send(bugs))
 }))
 
@@ -48,7 +50,21 @@ app.get('/api/bug/:id/remove', ((req, res) => {
 }))
 
 
-
+// app.get('/api/bug/download', (req, res) => {
+//     const doc = new PDFDocument()
+//     doc.pipe(fs.createWriteStream('bugs.pdf'))
+//     doc.fontSize(25).text('BUGS LIST').fontSize(16)
+    
+  
+//     bugService.query().then((bugs) => {
+//       bugs.forEach((bug) => {
+//         var bugTxt = `${bug.title}: ${bug.description}. (severity: ${bug.severity})`
+//         doc.text(bugTxt)
+//       })
+  
+//       doc.end()
+//     })
+//   })
 
 
 

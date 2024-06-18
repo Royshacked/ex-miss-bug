@@ -15,19 +15,8 @@ export const bugService = {
 const BASE_URL = '/api/bug'
 
 function query(filterBy = {}) {
-    console.log(filterBy)
-    return axios.get(BASE_URL)
+    return axios.get(`${BASE_URL}?txt=${filterBy.txt}&minSeverity=${filterBy.minSeverity}`)
         .then(res => res.data)
-        .then(bugs => {
-            if (filterBy.title) {
-                bugs = bugs.filter(bug => bug.title.toLowerCase().includes(filterBy.title.toLowerCase()))
-            }
-
-            if (filterBy.severity) {
-                bugs = bugs.filter(bug => bug.severity >= filterBy.severity)
-            }
-            return bugs
-        })
 }
 
 function getById(bugId) {
@@ -46,9 +35,9 @@ function save(bug) {
         .then(res => res.data)
 }
 
-function getEmptyFilter(title = '', severity = 1) {
+function getEmptyFilter(txt = '', minSeverity = 1) {
     return {
-        title,
-        severity
+        txt,
+        minSeverity
     }
 }

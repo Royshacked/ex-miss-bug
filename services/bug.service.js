@@ -9,8 +9,13 @@ export const bugService = {
 
 var bugs = utilService.readJsonFile('./data/bug.json')
 
-function query() {
-    return Promise.resolve(bugs)
+function query(filterBy = {}) {
+    const { txt, minSeverity } = filterBy
+    const regExp = new RegExp(txt, 'i')
+
+    const filteredBugs = bugs.filter(bug => regExp.test(bug.title) && bug.severity >= minSeverity)
+
+    return Promise.resolve(filteredBugs)
 }
 
 function getById(bugId) {
