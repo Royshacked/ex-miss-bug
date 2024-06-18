@@ -9,11 +9,13 @@ export const bugService = {
     getById,
     save,
     remove,
+    getEmptyFilter,
 }
 
 const BASE_URL = '/api/bug'
 
-function query() {
+function query(filterBy = {}) {
+    console.log(filterBy)
     return axios.get(BASE_URL)
         .then(res => res.data)
 }
@@ -32,4 +34,11 @@ function save(bug) {
     const queryStr = `/save?title=${bug.title}&description=${bug.description}&severity=${bug.severity}&_id=${bug._id || ''}`
     return axios.get(BASE_URL + queryStr)
         .then(res => res.data)
+}
+
+function getEmptyFilter(title = '', severity = 0) {
+    return {
+        title,
+        severity
+    }
 }

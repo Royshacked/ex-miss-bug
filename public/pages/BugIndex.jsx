@@ -7,13 +7,14 @@ const { useState, useEffect } = React
 
 export function BugIndex() {
   const [bugs, setBugs] = useState([])
+  const [filterBy, setFilterBy] = useState(bugService.getEmptyFilter())
 
   useEffect(() => {
-    loadBugs()
-  }, [])
+    loadBugs(filterBy)
+  }, [filterBy])
 
-  function loadBugs() {
-    bugService.query().then(setBugs)
+  function loadBugs(filterBy) {
+    bugService.query(filterBy).then(setBugs)
   }
 
   function onRemoveBug(bugId) {
@@ -66,11 +67,15 @@ export function BugIndex() {
       })
   }
 
+  function onSetNewFilter(newFilter) {
+    setFilterBy(newFilter)
+  }
+
   return (
     <main className='bug-index'>
       <section className="bug-index-header">
         <h3>Bugs App</h3>
-        <BugFilter />
+        <BugFilter filterBy={filterBy} onSetNewFilter={onSetNewFilter} />
       </section>
       <main>
         <button onClick={onAddBug}>Add Bug ⛐</button>
