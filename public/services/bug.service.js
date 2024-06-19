@@ -10,6 +10,7 @@ export const bugService = {
     save,
     remove,
     getEmptyFilter,
+    getFilterFromSearchParams,
 }
 
 const BASE_URL = '/api/bug'
@@ -39,5 +40,12 @@ function getEmptyFilter(txt = '', minSeverity = 0) {
     return {
         txt,
         minSeverity
+    }
+}
+
+function getFilterFromSearchParams(searchParams) {
+    return {
+        txt: searchParams.get('txt') || '',
+        minSeverity: +searchParams.get('minSeverity') || '',
     }
 }

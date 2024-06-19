@@ -4,17 +4,17 @@ import { BugList } from '../cmps/BugList.jsx'
 import { BugFilter } from '../cmps/BugFilter.jsx'
 
 const { useState, useEffect } = React
-const { useSearchParams } = ReactRouterDOM
+const { useSearchParams, useLocation } = ReactRouterDOM
 
 export function BugIndex() {
   const [bugs, setBugs] = useState([])
-  const [filterBy, setFilterBy] = useState(bugService.getEmptyFilter())
-  const [searchParams, setSearchParams] = useSearchParams({})
+  const [searchParams, setSearchParams] = useSearchParams()
+  const [filterBy, setFilterBy] = useState(bugService.getFilterFromSearchParams(searchParams))
 
   useEffect(() => {
     setSearchParams(filterBy)
     loadBugs()
-  }, [filterBy, bugs])
+  }, [filterBy])
 
   function loadBugs() {
     bugService.query(filterBy).then(setBugs)
@@ -39,12 +39,13 @@ export function BugIndex() {
       severity: +prompt('Bug severity?'),
       description: prompt('Bug description?'),
     }
-    if (!bug.title && !bug.severity && !bug.description) return
+    // if (!bug.title && !bug.severity && !bug.description) return
 
     bugService.save(bug)
       .then((savedBug) => {
         console.log('Added Bug', savedBug)
         setBugs(prevBugs => [...prevBugs, savedBug])
+        setFilterBy(prevFilter => ({ ...prevFilter }))
         showSuccessMsg('Bug added')
       })
       .catch((err) => {
