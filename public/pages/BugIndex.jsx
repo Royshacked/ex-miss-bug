@@ -4,14 +4,17 @@ import { BugList } from '../cmps/BugList.jsx'
 import { BugFilter } from '../cmps/BugFilter.jsx'
 
 const { useState, useEffect } = React
+const { useSearchParams } = ReactRouterDOM
 
 export function BugIndex() {
   const [bugs, setBugs] = useState([])
   const [filterBy, setFilterBy] = useState(bugService.getEmptyFilter())
+  const [searchParams, setSearchParams] = useSearchParams({})
 
   useEffect(() => {
+    setSearchParams(filterBy)
     loadBugs()
-  }, [filterBy])
+  }, [filterBy, bugs])
 
   function loadBugs() {
     bugService.query(filterBy).then(setBugs)
@@ -36,6 +39,7 @@ export function BugIndex() {
       severity: +prompt('Bug severity?'),
       description: prompt('Bug description?'),
     }
+    if (!bug.title && !bug.severity && !bug.description) return
 
     bugService.save(bug)
       .then((savedBug) => {

@@ -35,7 +35,7 @@ function save(bug) {
         .then(res => res.data)
 }
 
-function getEmptyFilter(txt = '', minSeverity = 1) {
+function getEmptyFilter(txt = '', minSeverity = 0) {
     return {
         txt,
         minSeverity
