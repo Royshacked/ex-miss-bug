@@ -2,14 +2,18 @@ import { bugService } from '../services/bug.service.js'
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
 import { BugList } from '../cmps/BugList.jsx'
 import { BugFilter } from '../cmps/BugFilter.jsx'
+import { utilService } from '../services/util.service.js'
 
-const { useState, useEffect } = React
-const { useSearchParams, useLocation } = ReactRouterDOM
+const { useState, useEffect, useRef } = React
+const { useSearchParams } = ReactRouterDOM
 
 export function BugIndex() {
   const [bugs, setBugs] = useState([])
   const [searchParams, setSearchParams] = useSearchParams()
   const [filterBy, setFilterBy] = useState(bugService.getFilterFromSearchParams(searchParams))
+
+  const debounceSetFilterBy = useRef(utilService.debounce(onSetNewFilter, 1000))
+
 
   useEffect(() => {
     setSearchParams(filterBy)
@@ -80,7 +84,7 @@ export function BugIndex() {
     <main className='bug-index'>
       <section className="bug-index-header">
         <h3>Bugs App</h3>
-        <BugFilter filterBy={filterBy} onSetNewFilter={onSetNewFilter} />
+        <BugFilter filterBy={filterBy} onSetNewFilter={debounceSetFilterBy.current} />
       </section>
       <main>
         <button onClick={onAddBug}>Add Bug ⛐</button>

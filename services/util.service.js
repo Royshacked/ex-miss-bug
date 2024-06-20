@@ -8,7 +8,7 @@ export const utilService = {
     writeJsonFile,
     download,
     httpGet,
-    makeId
+    makeId,
 }
 
 
@@ -75,3 +75,4 @@ function makeId(length = 5) {
     }
     return text
 }
+

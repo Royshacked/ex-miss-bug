@@ -13,7 +13,11 @@ app.get('/', ((req, res) => res.send('hello there')))
 app.listen(3030, () => console.log('Server is ready'))
 
 app.get('/api/bug', ((req, res) => {
-    const filterBy = req.query
+    // const filterBy = req.query
+    const filterBy = {
+        txt: req.query.txt || '', 
+        minSeverity: +req.query.minSeverity || 0,
+    }
 
     bugService.query(filterBy)
         .then(bugs => res.send(bugs))
