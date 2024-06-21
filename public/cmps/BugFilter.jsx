@@ -18,12 +18,18 @@ export function BugFilter({ filterBy, onSetNewFilter, lastPage }) {
         setFilterByToEdit(prevFilter => ({ ...prevFilter, [name]: value }))
     }
 
-    function handlePages(diff) {
-        let currentPage = +filterByToEdit.pageIdx + diff
-        if (currentPage < 0) currentPage = lastPage
-        if (currentPage > lastPage) currentPage = 0
+    function handlePages(diff = 0) {
+        let currentPage = checkPageIdx(diff)
 
         setFilterByToEdit(prevFilter => ({ ...prevFilter, pageIdx: currentPage }))
+    }
+
+    function checkPageIdx(diff = 0) {
+        let currentPage = +filterByToEdit.pageIdx + diff
+        if (currentPage < 0) return currentPage = lastPage - 1
+        if (currentPage > lastPage - 1) return currentPage = 0
+
+        return currentPage
     }
 
     return <section className="bug-filter">

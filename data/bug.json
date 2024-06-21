@@ -1,12 +1,5 @@
 [
   {
-    "_id": "abc123",
-    "title": "Cannot save a new car",
-    "description": "problem when clicking Save",
-    "severity": 3,
-    "createdAt": 1542107359454
-  },
-  {
     "_id": "abc124",
     "title": "Cannot remove car",
     "description": "problem when clicking Remove",
@@ -21,24 +14,10 @@
     "createdAt": 1542107359800
   },
   {
-    "_id": "RAcId",
-    "title": "hello",
-    "description": "test",
+    "_id": "CP9Sb",
+    "title": "f",
+    "description": "h",
     "severity": 4,
-    "createdAt": 1718898496129
-  },
-  {
-    "_id": "p4fHW",
-    "title": "hi",
-    "description": "gogo",
-    "severity": 3,
-    "createdAt": 1718898565291
-  },
-  {
-    "_id": "exRuN",
-    "title": "hello",
-    "description": "pages",
-    "severity": 5,
-    "createdAt": 1718908722453
+    "createdAt": 1718979997566
   }
 ]

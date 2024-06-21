@@ -13,8 +13,7 @@ export function BugIndex() {
   const [filterBy, setFilterBy] = useState(bugService.getFilterFromSearchParams(searchParams))
   const [pageCount, setPageCount] = useState(0)
 
-  const debounceSetFilterBy = useRef(utilService.debounce(onSetNewFilter, 1000))
-
+  const debounceSetFilterBy = useRef(utilService.debounce(onSetNewFilter, 250))
 
   useEffect(() => {
     setSearchParams(filterBy)
@@ -34,7 +33,8 @@ export function BugIndex() {
     bugService.remove(bugId)
       .then(() => {
         console.log('Deleted Succesfully!')
-        setBugs(prevBugs => prevBugs.filter((bug) => bug._id !== bugId))
+        loadBugs()
+        loadPageCount()
         showSuccessMsg('Bug removed')
       })
       .catch((err) => {
@@ -49,15 +49,16 @@ export function BugIndex() {
       severity: +prompt('Bug severity?'),
       description: prompt('Bug description?'),
     }
-    // if (!bug.title && !bug.severity && !bug.description) return
+
+    if (!bug.title && !bug.severity && !bug.description) return
 
     bugService.save(bug)
-      .then((savedBug) => {
-        console.log('Added Bug', savedBug)
-        setBugs(prevBugs => [...prevBugs, savedBug])
-        setFilterBy(prevFilter => ({ ...prevFilter }))
+      .then(() => {
+        loadBugs()
+        loadPageCount()
         showSuccessMsg('Bug added')
-      })
+      }
+      )
       .catch((err) => {
         console.log('Error from onAddBug ->', err)
         showErrorMsg('Cannot add bug')
@@ -71,9 +72,8 @@ export function BugIndex() {
     bugService.save(bugToSave)
       .then((savedBug) => {
         console.log('Updated Bug:', savedBug)
-        setBugs(prevBugs => prevBugs.map((currBug) =>
-          currBug._id === savedBug._id ? savedBug : currBug
-        ))
+        loadBugs()
+        loadPageCount()
         showSuccessMsg('Bug updated')
       })
       .catch((err) => {
@@ -90,7 +90,7 @@ export function BugIndex() {
     <main className='bug-index'>
       <section className="bug-index-header">
         <h3>Bugs App</h3>
-        <BugFilter filterBy={filterBy} onSetNewFilter={debounceSetFilterBy.current} lastPage={pageCount - 1} />
+        <BugFilter filterBy={filterBy} onSetNewFilter={debounceSetFilterBy.current} lastPage={pageCount} />
       </section>
       <main>
         <button onClick={onAddBug}>Add Bug ⛐</button>
