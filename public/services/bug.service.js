@@ -2,15 +2,13 @@
 import { storageService } from './async-storage.service.js'
 import { utilService } from './util.service.js'
 
-const STORAGE_KEY = 'bugDB'
-
 export const bugService = {
     query,
     getById,
     save,
     remove,
-    getEmptyFilter,
     getFilterFromSearchParams,
+    getPageCount
 }
 
 const BASE_URL = '/api/bug'
@@ -36,16 +34,16 @@ function save(bug) {
         .then(res => res.data)
 }
 
-function getEmptyFilter(txt = '', minSeverity = 0) {
-    return {
-        txt,
-        minSeverity
-    }
-}
 
 function getFilterFromSearchParams(searchParams) {
     return {
         txt: searchParams.get('txt') || '',
         minSeverity: +searchParams.get('minSeverity') || '',
+        pageIdx: +searchParams.get('pageIdx') || '',
     }
+}
+
+function getPageCount() {
+    return axios.get(BASE_URL + '/page')
+        .then(res => +res.data)
 }

@@ -11,17 +11,23 @@ export function BugIndex() {
   const [bugs, setBugs] = useState([])
   const [searchParams, setSearchParams] = useSearchParams()
   const [filterBy, setFilterBy] = useState(bugService.getFilterFromSearchParams(searchParams))
+  const [pageCount, setPageCount] = useState(0)
 
   const debounceSetFilterBy = useRef(utilService.debounce(onSetNewFilter, 1000))
 
 
   useEffect(() => {
     setSearchParams(filterBy)
+    loadPageCount()
     loadBugs()
   }, [filterBy])
 
   function loadBugs() {
     bugService.query(filterBy).then(setBugs)
+  }
+
+  function loadPageCount() {
+    bugService.getPageCount().then(setPageCount)
   }
 
   function onRemoveBug(bugId) {
@@ -77,14 +83,14 @@ export function BugIndex() {
   }
 
   function onSetNewFilter(newFilter) {
-    setFilterBy(newFilter)
+    setFilterBy({ ...newFilter })
   }
 
   return (
     <main className='bug-index'>
       <section className="bug-index-header">
         <h3>Bugs App</h3>
-        <BugFilter filterBy={filterBy} onSetNewFilter={debounceSetFilterBy.current} />
+        <BugFilter filterBy={filterBy} onSetNewFilter={debounceSetFilterBy.current} lastPage={pageCount - 1} />
       </section>
       <main>
         <button onClick={onAddBug}>Add Bug ⛐</button>

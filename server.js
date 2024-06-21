@@ -17,6 +17,7 @@ app.get('/api/bug', ((req, res) => {
     const filterBy = {
         txt: req.query.txt || '', 
         minSeverity: +req.query.minSeverity || 0,
+        pageIdx: +req.query.pageIdx || 0,
     }
 
     bugService.query(filterBy)
@@ -30,6 +31,12 @@ app.get('/api/bug/save', ((req, res) => {
     bugService.save(bugToSave)
         .then(savedBug => res.send(savedBug))
 }))
+
+app.get('/api/bug/page', ((req, res) => {
+    bugService.pageCount()
+        .then(pages => res.send(pages + ''))
+}))
+
 
 app.get('/api/bug/:id', ((req, res) => {
     const { id } = req.params

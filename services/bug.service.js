@@ -5,15 +5,25 @@ export const bugService = {
     getById,
     remove,
     save,
+    pageCount,
 }
 
+const PAGE_SIZE = 3
 var bugs = utilService.readJsonFile('./data/bug.json')
 
-function query(filterBy = {}) {
+
+function query(filterBy) {
+    if (!filterBy) return Promise.resolve(bugs)
+
     const { txt, minSeverity } = filterBy
     const regExp = new RegExp(txt, 'i')
+    let filteredBugs = bugs
 
-    const filteredBugs = bugs.filter(bug => regExp.test(bug.title) && bug.severity >= minSeverity)
+    if (filterBy.txt) filteredBugs.filter(bug => regExp.test(bug.title))
+    if (filterBy.minSeverity) filteredBugs.filter(bug => bug.severity >= minSeverity)
+
+    const startIdx = filterBy.pageIdx * PAGE_SIZE
+    filteredBugs = filteredBugs.slice(startIdx, startIdx + PAGE_SIZE)
 
     return Promise.resolve(filteredBugs)
 }
@@ -44,7 +54,10 @@ function save(bugToSave) {
         .then(() => bugToSave)
 }
 
-
+function pageCount() {
+    return query()
+        .then(bugs => Promise.resolve(Math.ceil(bugs.length / PAGE_SIZE)))
+}
 
 function _saveBugsToFile() {
     return utilService.writeJsonFile('./data/bug.json', bugs)
