@@ -15,7 +15,7 @@ export function BugFilter({ filterBy, onSetNewFilter, lastPage }) {
 
         type === 'number' ? value = +value || '' : value
 
-        setFilterByToEdit(prevFilter => ({ ...prevFilter, [name]: value }))
+        setFilterByToEdit(prevFilter => ({ ...prevFilter, [name]: value, pageIdx: 0 }))
     }
 
     function handlePages(diff = 0) {

@@ -33,7 +33,7 @@ export function BugIndex() {
     bugService.remove(bugId)
       .then(() => {
         console.log('Deleted Succesfully!')
-        loadBugs()
+        setBugs(prevBugs => prevBugs.filter((bug) => bug._id !== bugId))
         loadPageCount()
         showSuccessMsg('Bug removed')
       })
@@ -53,7 +53,8 @@ export function BugIndex() {
     if (!bug.title && !bug.severity && !bug.description) return
 
     bugService.save(bug)
-      .then(() => {
+      .then((savedBug) => {
+        // setBugs(prevBugs => [...prevBugs, savedBug])
         loadBugs()
         loadPageCount()
         showSuccessMsg('Bug added')
@@ -72,7 +73,9 @@ export function BugIndex() {
     bugService.save(bugToSave)
       .then((savedBug) => {
         console.log('Updated Bug:', savedBug)
-        loadBugs()
+        setBugs(prevBugs => prevBugs.map((currBug) =>
+          currBug._id === savedBug._id ? savedBug : currBug
+        ))
         loadPageCount()
         showSuccessMsg('Bug updated')
       })
@@ -83,7 +86,7 @@ export function BugIndex() {
   }
 
   function onSetNewFilter(newFilter) {
-    setFilterBy({ ...newFilter })
+    setFilterBy(prevFilter => ({ ...prevFilter, ...newFilter }))
   }
 
   return (

@@ -17,10 +17,11 @@ function query(filterBy) {
 
     const { txt, minSeverity } = filterBy
     const regExp = new RegExp(txt, 'i')
-    let filteredBugs = bugs
+    var filteredBugs = bugs
 
-    if (filterBy.txt) filteredBugs.filter(bug => regExp.test(bug.title))
-    if (filterBy.minSeverity) filteredBugs.filter(bug => bug.severity >= minSeverity)
+
+    if (txt) filteredBugs = filteredBugs.filter(bug => regExp.test(bug.title))
+    if (minSeverity) filteredBugs = filteredBugs.filter(bug => bug.severity >= minSeverity)
 
     const startIdx = filterBy.pageIdx * PAGE_SIZE
     filteredBugs = filteredBugs.slice(startIdx, startIdx + PAGE_SIZE)
