@@ -9,15 +9,13 @@ const app = express()
 
 app.use(express.static('public'))
 app.use(cookieParser())
+app.use(express.json())
 
-
-app.get('/', ((req, res) => res.send('hello there')))
 app.listen(port, () => loggerService.info(`Server listening on port http://127.0.0.1:${port}/`))
 
 app.get('/api/bug', ((req, res) => {
-    // const filterBy = req.query
     const filterBy = {
-        txt: req.query.txt || '', 
+        txt: req.query.txt || '',
         minSeverity: +req.query.minSeverity || 0,
         pageIdx: +req.query.pageIdx || 0,
     }
@@ -30,18 +28,6 @@ app.get('/api/bug', ((req, res) => {
         })
 }))
 
-app.get('/api/bug/save', ((req, res) => {
-    const { _id, title, description, severity } = req.query
-    const bugToSave = { _id, title, description, severity: +severity }
-
-    bugService.save(bugToSave)
-        .then(savedBug => res.send(savedBug))
-        .catch(err => {
-            loggerService.error(`Couldn't save bug`, err)
-            res.status(500).send(`Couldn't save bug`)
-        })
-}))
-
 app.get('/api/bug/page', ((req, res) => {
     bugService.pageCount()
         .then(pages => res.send(pages + ''))
@@ -50,7 +36,6 @@ app.get('/api/bug/page', ((req, res) => {
             res.status(500).send(`Couldn't get pageCount`)
         })
 }))
-
 
 app.get('/api/bug/:id', ((req, res) => {
     const { id } = req.params
@@ -71,7 +56,7 @@ app.get('/api/bug/:id', ((req, res) => {
         })
 }))
 
-app.get('/api/bug/:id/remove', ((req, res) => {
+app.delete('/api/bug/:id', ((req, res) => {
     const { id } = req.params
 
     bugService.remove(id)
@@ -83,21 +68,46 @@ app.get('/api/bug/:id/remove', ((req, res) => {
 }))
 
 
-// app.get('/api/bug/download', (req, res) => {
-//     const doc = new PDFDocument()
-//     doc.pipe(fs.createWriteStream('bugs.pdf'))
-//     doc.fontSize(25).text('BUGS LIST').fontSize(16)
-    
-  
-//     bugService.query().then((bugs) => {
-//       bugs.forEach((bug) => {
-//         var bugTxt = `${bug.title}: ${bug.description}. (severity: ${bug.severity})`
-//         doc.text(bugTxt)
-//       })
-  
-//       doc.end()
-//     })
-//   })
+app.put('/api/bug/:id', ((req, res) => {
+    const { _id, title, description, severity } = req.body
+    const bugToSave = {
+        _id,
+        title: title || '',
+        description: description || '',
+        severity: +severity || 0,
+    }
+
+    bugService.save(bugToSave)
+        .then(savedBug => res.send(savedBug))
+        .catch(err => {
+            loggerService.error(`Couldn't save bug`, err)
+            res.status(500).send(`Couldn't save bug`)
+        })
+}))
+
+
+app.post('/api/bug', ((req, res) => {
+    const { title, description, severity } = req.body
+    const bugToSave = {
+        title: title || '',
+        description: description || '',
+        severity: +severity || 0,
+    }
+
+    bugService.save(bugToSave)
+        .then(savedBug => res.send(savedBug))
+        .catch(err => {
+            loggerService.error(`Couldn't save bug`, err)
+            res.status(500).send(`Couldn't save bug`)
+        })
+}))
+
+
+
+
+
+
+
 
 
 
