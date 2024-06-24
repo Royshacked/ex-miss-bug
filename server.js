@@ -102,7 +102,9 @@ app.post('/api/bug', ((req, res) => {
         })
 }))
 
-
+app.get('/**', (req, res) => {
+    res.sendFile(path.resolve('public/index.html'))
+})
 
 
 

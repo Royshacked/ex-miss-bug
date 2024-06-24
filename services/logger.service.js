@@ -23,7 +23,6 @@ if (!fs.existsSync(logsDir)) {
 
 //define the time format
 function doLog(level, ...args) {
-
     const strs = args.map(arg =>
         (typeof arg === 'string' || _isError(arg)) ? arg : JSON.stringify(arg)
     )
