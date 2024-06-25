@@ -1,8 +1,6 @@
-import { bugService } from "../services/bug.service.js"
-
 const { useState, useEffect } = React
 
-export function BugFilter({ filterBy, onSetNewFilter, lastPage }) {
+export function BugFilter({ filterBy, onSetNewFilter, lastPage, labels }) {
     const [filterByToEdit, setFilterByToEdit] = useState(filterBy)
 
     useEffect(() => {
@@ -32,11 +30,39 @@ export function BugFilter({ filterBy, onSetNewFilter, lastPage }) {
         return currentPage
     }
 
-    return <section className="bug-filter">
-        <input type="text" name="txt" placeholder="Filter by Title..." onChange={handleChange} value={filterByToEdit.txt} />
-        <input type="number" name="minSeverity" min="0" max="7" placeholder="Min Severity..." onChange={handleChange} value={filterByToEdit.minSeverity} />
+    function handleLabels({ target }) {
+        const { name, checked } = target
 
-        <div>
+        setFilterByToEdit(prevFilter => ({
+            ...prevFilter,
+            selectedLabels: checked ? [...prevFilter.selectedLabels, name] : prevFilter.selectedLabels.filter(label => label !== name),
+            pageIdx: 0
+        }
+        ))
+    }
+
+    return <section className="bug-filter">
+        <div className="filter-inputs">
+            <label htmlFor="txt">
+                <input type="text" name="txt" id="txt" placeholder="Filter by Title..." onChange={handleChange} value={filterByToEdit.txt} />
+            </label>
+
+            <label htmlFor="number">
+                <input type="number" name="minSeverity" id="number" min="0" max="7" placeholder="Min Severity..." onChange={handleChange} value={filterByToEdit.minSeverity} />
+            </label>
+        </div>
+
+        <div className="labels-inputs">
+            <h3>Labels</h3>
+            {labels.map((label, idx) =>
+                <label htmlFor={label} key={idx}>
+                    {label}:
+                    <input type="checkbox" name={label} id={label} checked={filterByToEdit.selectedLabels.includes(label)} onChange={handleLabels} />
+                </label>
+            )}
+        </div>
+
+        <div className="paging">
             <button onClick={() => handlePages(+1)}>+</button>
             <span>{filterByToEdit.pageIdx + 1}</span>
             <button onClick={() => handlePages(-1)}>-</button>

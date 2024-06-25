@@ -12,12 +12,20 @@ export function BugIndex() {
   const [searchParams, setSearchParams] = useSearchParams()
   const [filterBy, setFilterBy] = useState(bugService.getFilterFromSearchParams(searchParams))
   const [pageCount, setPageCount] = useState(0)
+  const [labels, setLabels] = useState([])
 
   const debounceSetFilterBy = useRef(utilService.debounce(onSetNewFilter, 250))
 
   useEffect(() => {
-    setSearchParams(filterBy)
     loadPageCount()
+    loadLabels()
+  }, [])
+
+  console.log(filterBy.selectedLabels)
+
+  useEffect(() => {
+    // setSearchParams(filterBy)
+    setSearchParams({ ...filterBy, selectedLabels: filterBy.selectedLabels.join(',') })
     loadBugs()
   }, [filterBy])
 
@@ -27,6 +35,12 @@ export function BugIndex() {
 
   function loadPageCount() {
     bugService.getPageCount().then(setPageCount)
+  }
+
+  function loadLabels() {
+    bugService.getLabels().then(labels => {
+      setLabels(labels)
+    })
   }
 
   function onRemoveBug(bugId) {
@@ -93,7 +107,7 @@ export function BugIndex() {
     <main className='bug-index'>
       <section className="bug-index-header">
         <h3>Bugs App</h3>
-        <BugFilter filterBy={filterBy} onSetNewFilter={debounceSetFilterBy.current} lastPage={pageCount} />
+        <BugFilter filterBy={filterBy} onSetNewFilter={debounceSetFilterBy.current} lastPage={pageCount} labels={labels} />
       </section>
       <main>
         <button onClick={onAddBug}>Add Bug ⛐</button>

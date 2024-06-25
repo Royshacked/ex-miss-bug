@@ -8,7 +8,8 @@ export const bugService = {
     save,
     remove,
     getFilterFromSearchParams,
-    getPageCount
+    getPageCount,
+    getLabels
 }
 
 const BASE_URL = '/api/bug'
@@ -40,14 +41,21 @@ function save(bug) {
 
 
 function getFilterFromSearchParams(searchParams) {
+    const labels = !searchParams.get('selectedLabels') ? [] : searchParams.get('selectedLabels').split(',')
     return {
         txt: searchParams.get('txt') || '',
-        minSeverity: +searchParams.get('minSeverity') || '',
-        pageIdx: +searchParams.get('pageIdx') || '',
+        minSeverity: +searchParams.get('minSeverity') || 0,
+        pageIdx: +searchParams.get('pageIdx') || 0,
+        selectedLabels: labels,
     }
 }
 
 function getPageCount() {
     return axios.get(BASE_URL + '/page')
         .then(res => +res.data)
+}
+
+function getLabels() {
+    return axios.get(BASE_URL + '/label')
+        .then(res => res.data)
 }

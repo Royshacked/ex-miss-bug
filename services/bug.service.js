@@ -5,7 +5,8 @@ export const bugService = {
     getById,
     remove,
     save,
-    pageCount,
+    getPages,
+    getLabels
 }
 
 const PAGE_SIZE = 3
@@ -55,9 +56,20 @@ function save(bugToSave) {
         .then(() => bugToSave)
 }
 
-function pageCount() {
+function getPages() {
     return query()
         .then(bugs => Promise.resolve(Math.ceil(bugs.length / PAGE_SIZE)))
+}
+
+function getLabels() {
+    return query()
+        .then(bugs => {
+            const labels = bugs.reduce((acc, bug) => {
+                return [...acc, ...bug.labels]
+            }, [])
+
+            return Promise.resolve([...new Set(labels)])
+        })
 }
 
 function _saveBugsToFile() {

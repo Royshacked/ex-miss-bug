@@ -1,44 +1,55 @@
 [
   {
-    "_id": "abc124",
-    "title": "Cannot remove car",
-    "description": "problem when clicking Remove",
-    "severity": 4,
-    "createdAt": 1542107359700
-  },
-  {
     "_id": "abc125",
     "title": "Cannot add a new car",
     "description": "problem when clicking Add",
     "severity": 7,
-    "createdAt": 1542107359800
+    "createdAt": 1542107359800,
+    "labels": [
+      "critical",
+      "need-CR",
+      "dev-branch"
+    ]
   },
   {
     "_id": "7yXJf",
     "title": "g",
     "description": "j",
     "severity": 8,
-    "createdAt": 1719044178237
+    "createdAt": 1719044178237,
+    "labels": [
+      "dev-branch"
+    ]
   },
   {
     "_id": "uHxbJ",
     "title": "ga",
     "description": "goo",
     "severity": 4,
-    "createdAt": 1719046071645
+    "createdAt": 1719046071645,
+    "labels": [
+      "critical"
+    ]
   },
   {
     "_id": "RCcAf",
     "title": "goooo",
     "description": "gaga",
     "severity": 3,
-    "createdAt": 1719046137640
+    "createdAt": 1719046137640,
+    "labels": [
+      "need-CR"
+    ]
   },
   {
-    "title": "roro",
-    "description": "f",
+    "title": "hey hey",
+    "description": "ha ha",
     "severity": 1,
-    "_id": "FYhrw",
-    "createdAt": 1719168514950
+    "_id": "CHxru",
+    "createdAt": 1719300025012,
+    "labels": [
+      "critical",
+      "need-CR"
+    ]
   }
 ]

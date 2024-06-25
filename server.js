@@ -29,13 +29,26 @@ app.get('/api/bug', ((req, res) => {
 }))
 
 app.get('/api/bug/page', ((req, res) => {
-    bugService.pageCount()
+    bugService.getPages()
         .then(pages => res.send(pages + ''))
         .catch(err => {
             loggerService.error(`Couldn't get pageCount`, err)
             res.status(500).send(`Couldn't get pageCount`)
         })
 }))
+
+
+app.get('/api/bug/label', ((req, res) => {
+    bugService.getLabels()
+        .then(labels => res.send(labels))
+        .catch(err => {
+            loggerService.error(`Couldn't get labels`, err)
+            res.status(500).send(`Couldn't get labels`)
+        })
+}))
+
+
+
 
 app.get('/api/bug/:id', ((req, res) => {
     const { id } = req.params
