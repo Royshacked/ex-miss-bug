@@ -49,6 +49,7 @@ function save(bugToSave) {
     } else {
         bugToSave._id = utilService.makeId()
         bugToSave.createdAt = Date.now()
+        bugToSave.labels = []
         bugs.push(bugToSave)
     }
 

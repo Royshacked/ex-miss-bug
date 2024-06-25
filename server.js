@@ -48,9 +48,6 @@ app.get('/api/bug/label', ((req, res) => {
         })
 }))
 
-
-
-
 app.get('/api/bug/:id', ((req, res) => {
     const { id } = req.params
     var visitedBugs = req.cookies.visitedBugs || []
@@ -83,26 +80,9 @@ app.delete('/api/bug/:id', ((req, res) => {
 
 
 app.put('/api/bug/:id', ((req, res) => {
-    const { _id, title, description, severity } = req.body
+    const { _id, title, description, severity, labels } = req.body
     const bugToSave = {
         _id,
-        title: title || '',
-        description: description || '',
-        severity: +severity || 0,
-    }
-
-    bugService.save(bugToSave)
-        .then(savedBug => res.send(savedBug))
-        .catch(err => {
-            loggerService.error(`Couldn't save bug`, err)
-            res.status(500).send(`Couldn't save bug`)
-        })
-}))
-
-
-app.post('/api/bug', ((req, res) => {
-    const { title, description, severity, labels } = req.body
-    const bugToSave = {
         title: title || '',
         description: description || '',
         severity: +severity || 0,
@@ -117,10 +97,26 @@ app.post('/api/bug', ((req, res) => {
         })
 }))
 
+
+app.post('/api/bug', ((req, res) => {
+    const { title, description, severity } = req.body
+    const bugToSave = {
+        title: title || '',
+        description: description || '',
+        severity: +severity || 0,
+    }
+
+    bugService.save(bugToSave)
+        .then(savedBug => res.send(savedBug))
+        .catch(err => {
+            loggerService.error(`Couldn't save bug`, err)
+            res.status(500).send(`Couldn't save bug`)
+        })
+}))
+
 // app.get('/**', (req, res) => {
 //     res.sendFile(path.resolve('public/index.html'))
 // })
-
 
 
 

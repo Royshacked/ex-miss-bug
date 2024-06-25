@@ -62,7 +62,6 @@ export function BugIndex() {
       title: prompt('Bug title?'),
       severity: +prompt('Bug severity?'),
       description: prompt('Bug description?'),
-      labels: !prompt('Labels?') ? [] : prompt('Labels?').split(','),
     }
 
     if (!bug.title && !bug.severity && !bug.description) return
@@ -84,7 +83,12 @@ export function BugIndex() {
 
   function onEditBug(bug) {
     const severity = +prompt('New severity?')
-    const bugToSave = { ...bug, severity }
+    const label = prompt('New label?')
+
+    !label ? [] : label
+
+    // const bugToSave = { ...bug, severity }
+    const bugToSave = { ...bug, severity, labels: [...bug.labels, label] }
 
     bugService.save(bugToSave)
       .then((savedBug) => {
@@ -93,6 +97,7 @@ export function BugIndex() {
           currBug._id === savedBug._id ? savedBug : currBug
         ))
         loadPageCount()
+        loadLabels()
         showSuccessMsg('Bug updated')
       })
       .catch((err) => {

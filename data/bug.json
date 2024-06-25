@@ -1,63 +1,11 @@
 [
   {
-    "_id": "abc125",
-    "title": "Cannot add a new car",
-    "description": "problem when clicking Add",
-    "severity": 7,
-    "createdAt": 1542107359800,
-    "labels": [
-      "critical",
-      "need-CR",
-      "dev-branch"
-    ]
-  },
-  {
-    "_id": "7yXJf",
-    "title": "g",
-    "description": "j",
-    "severity": 8,
-    "createdAt": 1719044178237,
-    "labels": [
-      "dev-branch"
-    ]
-  },
-  {
-    "_id": "uHxbJ",
-    "title": "ga",
-    "description": "goo",
-    "severity": 4,
-    "createdAt": 1719046071645,
-    "labels": [
-      "critical"
-    ]
-  },
-  {
-    "_id": "RCcAf",
-    "title": "goooo",
-    "description": "gaga",
-    "severity": 3,
-    "createdAt": 1719046137640,
-    "labels": [
-      "need-CR"
-    ]
-  },
-  {
-    "title": "hey hey",
-    "description": "ha ha",
-    "severity": 1,
-    "_id": "CHxru",
-    "createdAt": 1719300025012,
-    "labels": [
-      "critical",
-      "need-CR"
-    ]
-  },
-  {
-    "title": "tototot",
-    "description": "dddddd",
+    "_id": "kS670",
+    "title": "roro",
+    "description": "rere",
     "severity": 2,
-    "labels": [],
-    "_id": "KdOOa",
-    "createdAt": 1719315692085
+    "labels": [
+      ""
+    ]
   }
 ]
