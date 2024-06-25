@@ -21,7 +21,6 @@ export function BugIndex() {
     loadLabels()
   }, [])
 
-  console.log(filterBy.selectedLabels)
 
   useEffect(() => {
     // setSearchParams(filterBy)
@@ -49,6 +48,7 @@ export function BugIndex() {
         console.log('Deleted Succesfully!')
         setBugs(prevBugs => prevBugs.filter((bug) => bug._id !== bugId))
         loadPageCount()
+        loadLabels()
         showSuccessMsg('Bug removed')
       })
       .catch((err) => {
@@ -62,6 +62,7 @@ export function BugIndex() {
       title: prompt('Bug title?'),
       severity: +prompt('Bug severity?'),
       description: prompt('Bug description?'),
+      labels: !prompt('Labels?') ? [] : prompt('Labels?').split(','),
     }
 
     if (!bug.title && !bug.severity && !bug.description) return
@@ -71,6 +72,7 @@ export function BugIndex() {
         // setBugs(prevBugs => [...prevBugs, savedBug])
         loadBugs()
         loadPageCount()
+        loadLabels()
         showSuccessMsg('Bug added')
       }
       )
