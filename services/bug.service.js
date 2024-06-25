@@ -16,13 +16,13 @@ var bugs = utilService.readJsonFile('./data/bug.json')
 function query(filterBy) {
     if (!filterBy) return Promise.resolve(bugs)
 
-    const { txt, minSeverity } = filterBy
+    const { txt, minSeverity, selectedLabels } = filterBy
     const regExp = new RegExp(txt, 'i')
     var filteredBugs = bugs
 
-
     if (txt) filteredBugs = filteredBugs.filter(bug => regExp.test(bug.title))
     if (minSeverity) filteredBugs = filteredBugs.filter(bug => bug.severity >= minSeverity)
+    if (selectedLabels.length > 0) filteredBugs = filteredBugs.filter(bug => filterBy.selectedLabels.every(label => bug.labels.includes(label)))
 
     const startIdx = filterBy.pageIdx * PAGE_SIZE
     filteredBugs = filteredBugs.slice(startIdx, startIdx + PAGE_SIZE)
