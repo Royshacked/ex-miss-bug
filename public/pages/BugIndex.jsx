@@ -58,10 +58,17 @@ export function BugIndex() {
   }
 
   function onAddBug() {
+    const title = prompt('Bug title?')
+    const description = prompt('Bug description?')
+    const severity = +prompt('Bug severity?')
+    const labelsInput = prompt('Bug labels (comma-separated)?')
+    const labels = labelsInput ? labelsInput.split(',') : []
+
     const bug = {
-      title: prompt('Bug title?'),
-      severity: +prompt('Bug severity?'),
-      description: prompt('Bug description?'),
+      title,
+      description,
+      severity,
+      labels
     }
 
     if (!bug.title && !bug.severity && !bug.description) return
@@ -83,12 +90,7 @@ export function BugIndex() {
 
   function onEditBug(bug) {
     const severity = +prompt('New severity?')
-    const label = prompt('New label?')
-
-    !label ? [] : label
-
-    // const bugToSave = { ...bug, severity }
-    const bugToSave = { ...bug, severity, labels: [...bug.labels, label] }
+    const bugToSave = { ...bug, severity }
 
     bugService.save(bugToSave)
       .then((savedBug) => {

@@ -99,11 +99,12 @@ app.put('/api/bug/:id', ((req, res) => {
 
 
 app.post('/api/bug', ((req, res) => {
-    const { title, description, severity } = req.body
+    const { title, description, severity, labels } = req.body
     const bugToSave = {
         title: title || '',
         description: description || '',
         severity: +severity || 0,
+        labels: labels || [],
     }
 
     bugService.save(bugToSave)
