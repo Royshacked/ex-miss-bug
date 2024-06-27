@@ -11,7 +11,11 @@ app.use(express.static('public'))
 app.use(cookieParser())
 app.use(express.json())
 
-app.listen(port, () => loggerService.info(`Server listening on port http://127.0.0.1:${port}/`))
+const PORT = process.env.PORT || 3030
+app.listen(PORT,
+    () => console.log(`Server listening on port ${PORT}`))
+
+// app.listen(port, () => loggerService.info(`Server listening on port http://127.0.0.1:${port}/`))
 
 app.get('/api/bug', ((req, res) => {
     const filterBy = {
