@@ -93,3 +93,5 @@
 26.6.2024, 6:09:12 - INFO - Server listening on port http://127.0.0.1:3030/
 26.6.2024, 6:09:15 - ERROR - Couldn't get labels | TypeError: bug.labels is not iterable
 26.6.2024, 6:13:47 - INFO - Server listening on port http://127.0.0.1:3030/
+27.6.2024, 20:35:45 - INFO - Server listening on port 3030 
+27.6.2024, 20:42:06 - INFO - Server listening on port 3030 

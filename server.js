@@ -13,7 +13,7 @@ app.use(express.json())
 
 const PORT = process.env.PORT || 3030
 app.listen(PORT,
-    () => console.log(`Server listening on port ${PORT}`))
+    () => loggerService.info(`Server listening on port ${PORT}`))
 
 // app.listen(port, () => loggerService.info(`Server listening on port http://127.0.0.1:${port}/`))
 
