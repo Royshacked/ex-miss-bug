@@ -1,7 +1,7 @@
 {
   "name": "ex-miss-bug",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "build": "npm install; npm run build",
     "start": "set PORT=3030 & node server.js",
