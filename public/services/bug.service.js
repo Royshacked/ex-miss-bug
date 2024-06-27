@@ -55,6 +55,7 @@ function getPageCount() {
         .then(res => +res.data)
 }
 
+
 function getLabels() {
     return axios.get(BASE_URL + '/label')
         .then(res => res.data)
