@@ -20,6 +20,7 @@ app.get('/api/bug', ((req, res) => {
         minSeverity: +req.query.minSeverity || 0,
         pageIdx: +req.query.pageIdx || 0,
         selectedLabels: req.query.selectedLabels || [],
+        userId: req.query.userId || '',
     }
 
     bugService.query(filterBy)
@@ -101,11 +102,19 @@ app.put('/api/bug/:id', ((req, res) => {
 
 app.post('/api/bug', ((req, res) => {
     const { title, description, severity, labels } = req.body
+    const { loginToken } = req.cookies
+
+    const loggedinUser = userService.validateToken(loginToken)
+
     const bugToSave = {
         title: title || '',
         description: description || '',
         severity: +severity || 0,
         labels: labels || [],
+        creator: {
+            _id: loggedinUser._id,
+            fullname: loggedinUser.fullname
+        }
     }
 
     bugService.save(bugToSave)

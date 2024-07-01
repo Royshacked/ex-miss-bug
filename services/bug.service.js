@@ -16,9 +16,15 @@ var bugs = utilService.readJsonFile('./data/bug.json')
 function query(filterBy) {
     if (!filterBy) return Promise.resolve(bugs)
 
-    const { txt, minSeverity, selectedLabels } = filterBy
+    const { txt, minSeverity, selectedLabels, userId } = filterBy
     const regExp = new RegExp(txt, 'i')
     var filteredBugs = bugs
+
+    if (userId) {
+        filteredBugs = filteredBugs.filter(bug => bug.creator._id === userId)
+        console.log(filteredBugs)
+        return Promise.resolve(filteredBugs)
+    }
 
     if (txt) filteredBugs = filteredBugs.filter(bug => regExp.test(bug.title))
     if (minSeverity) filteredBugs = filteredBugs.filter(bug => bug.severity >= minSeverity)

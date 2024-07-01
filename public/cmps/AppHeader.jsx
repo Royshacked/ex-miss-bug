@@ -1,4 +1,4 @@
-const { NavLink } = ReactRouterDOM
+const { Link, NavLink } = ReactRouterDOM
 const { useState } = React
 
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service.js'
@@ -33,7 +33,9 @@ export function AppHeader() {
         <NavLink to="/about">About</NavLink>
       </nav>
       <h1>Bugs are Forever</h1>
-      {user ? <section>Hello {user.fullname} <button onClick={logOut}>LogOut</button></section> : <LoginSignup onSetUser={onSetUser} />}
+      {user ? <section><Link to={{ pathname: '/bug/user', state: user }}> Hello {user.fullname} </Link> <button onClick={logOut}>LogOut</button></section> : <LoginSignup onSetUser={onSetUser} />}
+      {/* {user ? <section><Link to="/bug/user"> Hello {user.fullname} </Link> <button onClick={logOut}>LogOut</button></section> : <LoginSignup onSetUser={onSetUser} />} */}
     </header>
   )
 }
+

@@ -1,45 +1,14 @@
 [
   {
-    "_id": "abc123",
-    "title": "Cannot save a new car",
-    "description": "problem when clicking Save",
-    "severity": 3,
-    "createdAt": 1542107359454,
-    "labels": [
-      "critical"
-    ]
-  },
-  {
-    "_id": "abc124",
-    "title": "Cannot remove car",
-    "description": "problem when clicking Remove",
+    "title": "Hello",
+    "description": "gag",
     "severity": 4,
-    "createdAt": 1542107359700,
-    "labels": [
-      "critical",
-      "need-CR"
-    ]
-  },
-  {
-    "_id": "abc125",
-    "title": "Cannot add a new car",
-    "description": "problem when clicking Add",
-    "severity": 7,
-    "createdAt": 1542107359800,
-    "labels": [
-      "critical",
-      "need-CR",
-      "dev-branch"
-    ]
-  },
-  {
-    "title": "Cannot connect to Render.com",
-    "description": "annoying",
-    "severity": 5,
-    "labels": [
-      "one-one"
-    ],
-    "_id": "47CPP",
-    "createdAt": 1719512985686
+    "labels": [],
+    "creator": {
+      "_id": "VLVN4",
+      "fullname": "roy shacked"
+    },
+    "_id": "GTA6G",
+    "createdAt": 1719843455149
   }
 ]

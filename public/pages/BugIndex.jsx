@@ -75,7 +75,6 @@ export function BugIndex() {
 
     bugService.save(bug)
       .then((savedBug) => {
-        // setBugs(prevBugs => [...prevBugs, savedBug])
         loadBugs()
         loadPageCount()
         loadLabels()
