@@ -1,5 +1,11 @@
 .bug-filter {
+    width: 100%;
+    padding: 1rem;
+
     background-color: var(--clr2bg);
+
+    font-family: 'Edu VIC WA NT Beginner', cursive;
+    font-weight: bold;
 }
 
 .bug-filter form {
@@ -9,4 +15,53 @@
 
 .bug-filter input {
     width: 200px;
+}
+
+.bug-filter .filter-inputs {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 1rem;
+}
+
+.bug-filter .labels-inputs {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 1rem;
+}
+
+.bug-filter .labels-inputs input {
+    /* display: none; */
+    width: max-content;
+}
+
+.bug-filter .labels-inputs label {
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+
+    background-color: #fff;
+}
+
+/* .labels-inputs .labels-inputs label:has(:checked) {
+    background-color: black;
+} */
+
+.bug-filter .paging {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 1rem;
+
+    font-weight: bold;
+}
+
+.bug-filter .paging button {
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+
+    background-color: #fff;
 }

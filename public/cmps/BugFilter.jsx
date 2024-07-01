@@ -43,6 +43,7 @@ export function BugFilter({ filterBy, onSetNewFilter, lastPage, labels }) {
 
     return <section className="bug-filter">
         <div className="filter-inputs">
+            <h3>Filters</h3>
             <label htmlFor="txt">
                 <input type="text" name="txt" id="txt" placeholder="Filter by Title..." onChange={handleChange} value={filterByToEdit.txt} />
             </label>
@@ -56,13 +57,14 @@ export function BugFilter({ filterBy, onSetNewFilter, lastPage, labels }) {
             <h3>Labels</h3>
             {labels.map((label, idx) =>
                 <label htmlFor={label} key={idx}>
-                    {label}:
+                    {label}
                     <input type="checkbox" name={label} id={label} checked={filterByToEdit.selectedLabels.includes(label)} onChange={handleLabels} />
                 </label>
             )}
         </div>
 
         <div className="paging">
+            <h3>Paging</h3>
             <button onClick={() => handlePages(+1)}>+</button>
             <span>{filterByToEdit.pageIdx + 1}</span>
             <button onClick={() => handlePages(-1)}>-</button>
