@@ -1,12 +1,12 @@
-const {NavLink} = ReactRouterDOM
-const {useEffect} = React
+const { NavLink } = ReactRouterDOM
+const { useState } = React
 
-import {UserMsg} from './UserMsg.jsx'
+import { userService } from '../services/user.service.js'
+import { LoginSignup } from './LoginSignup.jsx'
+import { UserMsg } from './UserMsg.jsx'
 
 export function AppHeader() {
-  useEffect(() => {
-    // component did mount when dependancy array is empty
-  }, [])
+  const [user, setUser] = useState(userService.getLoggedInUser())
 
   return (
     <header>
@@ -16,6 +16,11 @@ export function AppHeader() {
         <NavLink to="/about">About</NavLink>
       </nav>
       <h1>Bugs are Forever</h1>
+      {user ?
+        <section>User:{user.fullname}</section> :
+
+
+        <LoginSignup />}
     </header>
   )
 }
