@@ -1,21 +1,18 @@
 import express from 'express'
 import cookieParser from 'cookie-parser'
+import path from 'path'
+
 
 import { bugService } from './services/bug.service.js'
 import { loggerService } from './services/logger.service.js'
+import { userService } from './services/user.service.js'
 
-const port = 3030
 const app = express()
 
 app.use(express.static('public'))
 app.use(cookieParser())
 app.use(express.json())
 
-const PORT = process.env.PORT || 3030
-app.listen(PORT,
-    () => loggerService.info(`Server listening on port ${PORT}`))
-
-// app.listen(port, () => loggerService.info(`Server listening on port http://127.0.0.1:${port}/`))
 
 app.get('/api/bug', ((req, res) => {
     const filterBy = {
@@ -119,9 +116,89 @@ app.post('/api/bug', ((req, res) => {
         })
 }))
 
-// app.get('/**', (req, res) => {
-//     res.sendFile(path.resolve('public/index.html'))
-// })
+// User
+app.get('/api/user', (req, res) => {
+    const { loginToken } = req.cookies
+
+    const loggedinUser = userService.validateToken(loginToken)
+    if (!loggedinUser || !loggedinUser.isAdmin) return res.status(401).send('Cannot get users')
+
+    userService.query()
+        .then(users => res.send(users))
+        .catch(err => res.status(500).send('Cannot get users'))
+})
+
+app.get('/api/user/:userId', (req, res) => {
+    const { userId } = req.params
+
+    userService.getById(userId)
+        .then(user => res.send(user))
+        .catch(err => res.status(500).send('Cannot get user'))
+})
+
+app.delete('/api/user/:userId', (req, res) => {
+    const { loginToken } = req.cookies
+
+    const loggedinUser = userService.validateToken(loginToken)
+    if (!loggedinUser?.isAdmin) return res.status(401).send('Not allowed')
+
+    const { userId } = req.params
+    bugService.hasBugs(userId)
+        .then(hasBugs => {
+            if (!hasBugs) {
+                userService.remove(userId)
+                    .then(() => res.send('Removed!'))
+                    .catch(err => res.status(401).send(err))
+            } else {
+                res.status(401).send('Cannot delete user with bugs')
+            }
+        })
+})
+
+// Auth
+app.post('/api/login', (req, res) => {
+    const credentials = {
+        username: req.body.username,
+        password: req.body.password,
+    }
+    userService.login(credentials)
+        .then(user => {
+            const loginToken = userService.getLoginToken(user)
+            res.cookie('loginToken', loginToken)
+            res.send(user)
+        })
+        .catch(err => res.status(401).send(err))
+})
+
+app.post('/api/logout', (req, res) => {
+    res.clearCookie('loginToken')
+    res.send('Logged out')
+})
+
+app.post('/api/signup', (req, res) => {
+    const credentials = req.body
+
+    userService.signup(credentials)
+        .then(user => {
+            const loginToken = userService.getLoginToken(user)
+            res.cookie('loginToken', loginToken)
+            res.send(user)
+        })
+        .catch(err => res.status(403).send('Signup failed'))
+})
+
+
+
+app.get('/**', (req, res) => {
+    res.sendFile(path.resolve('public/index.html'))
+})
+
+const PORT = process.env.PORT || 3030
+
+app.listen(PORT, () => {
+    console.log(`Server is ready at ${PORT} http://127.0.0.1:${PORT}/`)
+})
+
 
 
 
