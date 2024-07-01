@@ -22,7 +22,6 @@ function query(filterBy) {
 
     if (userId) {
         filteredBugs = filteredBugs.filter(bug => bug.creator._id === userId)
-        console.log(filteredBugs)
         return Promise.resolve(filteredBugs)
     }
 

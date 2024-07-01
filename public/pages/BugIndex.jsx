@@ -3,6 +3,7 @@ import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
 import { BugList } from '../cmps/BugList.jsx'
 import { BugFilter } from '../cmps/BugFilter.jsx'
 import { utilService } from '../services/util.service.js'
+import { userService } from '../services/user.service.js'
 
 const { useState, useEffect, useRef } = React
 const { useSearchParams } = ReactRouterDOM
@@ -13,6 +14,7 @@ export function BugIndex() {
   const [filterBy, setFilterBy] = useState(bugService.getFilterFromSearchParams(searchParams))
   const [pageCount, setPageCount] = useState(0)
   const [labels, setLabels] = useState([])
+  const [user, setUser] = useState(userService.getLoggedInUser)
 
   const debounceSetFilterBy = useRef(utilService.debounce(onSetNewFilter, 250))
 
@@ -119,7 +121,7 @@ export function BugIndex() {
       </section>
       <main>
         <button onClick={onAddBug}>Add Bug ⛐</button>
-        <BugList bugs={bugs} onRemoveBug={onRemoveBug} onEditBug={onEditBug} />
+        <BugList bugs={bugs} onRemoveBug={onRemoveBug} onEditBug={onEditBug} user={user} />
       </main>
     </main>
   )

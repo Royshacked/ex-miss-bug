@@ -82,13 +82,17 @@ app.delete('/api/bug/:id', ((req, res) => {
 
 
 app.put('/api/bug/:id', ((req, res) => {
-    const { _id, title, description, severity, labels } = req.body
+    const { _id, title, description, severity, labels, creator } = req.body
     const bugToSave = {
         _id,
         title: title || '',
         description: description || '',
         severity: +severity || 0,
         labels: labels || [],
+        creator: {
+            _id: creator._id,
+            username: creator.username
+        }
     }
 
     bugService.save(bugToSave)

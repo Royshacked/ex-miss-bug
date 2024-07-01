@@ -1,5 +1,6 @@
 import { BugList } from "../cmps/BugList.jsx"
 import { bugService } from "../services/bug.service.js"
+import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
 import { userService } from "../services/user.service.js"
 
 const { useState, useEffect } = React
@@ -22,12 +23,31 @@ export function UserDetails() {
             .then(userBugs => setUserBugs(userBugs))
     }
 
-    function onRemoveBug() {
-        console.log('remove')
+    function onRemoveBug(bugId) {
+        bugService.remove(bugId)
+            .then(() => {
+                setUserBugs(prevBugs => prevBugs.filter(bug => bug._id !== bugId))
+                showSuccessMsg('Bug removed successfully')
+            })
+            .catch((err) => {
+                console.log(err)
+                showErrorMsg('Could\'nt remove bug')
+            })
     }
 
-    function onEditBug() {
-        console.log('edit')
+    function onEditBug(bug) {
+        const severity = +prompt('New severity?')
+        const bugToSave = { ...bug, severity }
+
+        bugService.save(bugToSave)
+            .then(savedBug => {
+                setUserBugs(prevBugs => prevBugs.map(bug => bug._id === savedBug._id ? savedBug : bug))
+                showSuccessMsg('Bug updated successfully')
+            })
+            .catch((err) => {
+                console.log(err)
+                showErrorMsg('Could\'nt update bug')
+            })
     }
 
     console.log(userBugs)
@@ -35,6 +55,6 @@ export function UserDetails() {
         <h2>User</h2>
         <button onClick={() => navigate('/bug')}>X</button>
 
-        <BugList bugs={userBugs} onRemoveBug={onRemoveBug} onEditBug={onEditBug} />
+        {userBugs.length > 0 && <BugList bugs={userBugs} onRemoveBug={onRemoveBug} onEditBug={onEditBug} user={user} />}
     </section>
 }
