@@ -10,8 +10,8 @@ export function BugList({ bugs, onRemoveBug, onEditBug, user }) {
         <li className="bug-preview" key={bug._id}>
           <BugPreview bug={bug} />
           <div>
-            {user && bug.creator._id === user._id && <button onClick={() => { onRemoveBug(bug._id) }}>x</button>}
-            {user && bug.creator._id === user._id && <button onClick={() => { onEditBug(bug) }}>Edit</button>}
+            {user && (bug.creator._id === user._id || user.isAdmin) && <button onClick={() => { onRemoveBug(bug._id) }}>x</button>}
+            {user && (bug.creator._id === user._id || user.isAdmin) && <button onClick={() => { onEditBug(bug) }}>Edit</button>}
           </div>
           <Link to={`/bug/${bug._id}`}>Details</Link>
         </li>

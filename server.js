@@ -21,6 +21,7 @@ app.get('/api/bug', ((req, res) => {
         pageIdx: +req.query.pageIdx || 0,
         selectedLabels: req.query.selectedLabels || [],
         userId: req.query.userId || '',
+        isAdmin: req.query.isAdmin || false,
     }
 
     bugService.query(filterBy)
@@ -169,6 +170,7 @@ app.delete('/api/user/:userId', (req, res) => {
 })
 
 // Auth
+
 app.post('/api/login', (req, res) => {
     const credentials = {
         username: req.body.username,

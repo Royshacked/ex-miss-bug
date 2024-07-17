@@ -16,21 +16,21 @@ var bugs = utilService.readJsonFile('./data/bug.json')
 function query(filterBy) {
     if (!filterBy) return Promise.resolve(bugs)
 
-    const { txt, minSeverity, selectedLabels, userId } = filterBy
+    const { txt, minSeverity, selectedLabels, pageIdx, userId, isAdmin } = filterBy
     const regExp = new RegExp(txt, 'i')
     var filteredBugs = bugs
 
-    if (userId) {
-        filteredBugs = filteredBugs.filter(bug => bug.creator._id === userId)
-        return Promise.resolve(filteredBugs)
-    }
+    if (isAdmin === true) return Promise.resolve(filteredBugs)
+    if (userId) filteredBugs = filteredBugs.filter(bug => bug.creator._id === userId)
 
     if (txt) filteredBugs = filteredBugs.filter(bug => regExp.test(bug.title))
     if (minSeverity) filteredBugs = filteredBugs.filter(bug => bug.severity >= minSeverity)
     if (selectedLabels.length > 0) filteredBugs = filteredBugs.filter(bug => filterBy.selectedLabels.every(label => bug.labels.includes(label)))
 
-    const startIdx = filterBy.pageIdx * PAGE_SIZE
-    filteredBugs = filteredBugs.slice(startIdx, startIdx + PAGE_SIZE)
+    if (pageIdx) {
+        const startIdx = filterBy.pageIdx * PAGE_SIZE
+        filteredBugs = filteredBugs.slice(startIdx, startIdx + PAGE_SIZE)
+    }
 
     return Promise.resolve(filteredBugs)
 }

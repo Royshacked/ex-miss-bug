@@ -25,7 +25,6 @@ export function BugIndex() {
 
 
   useEffect(() => {
-    // setSearchParams(filterBy)
     setSearchParams({ ...filterBy, selectedLabels: filterBy.selectedLabels.join(',') })
     loadBugs()
   }, [filterBy])

@@ -19,7 +19,7 @@ export function UserDetails() {
     }, [])
 
     function getUserBugs() {
-        bugService.query({ userId: user._id })
+        bugService.query({ userId: user._id, isAdmin: user.isAdmin })
             .then(userBugs => setUserBugs(userBugs))
     }
 
@@ -50,7 +50,6 @@ export function UserDetails() {
             })
     }
 
-    console.log(userBugs)
     return <section className="user-details">
         <h2>User</h2>
         <button onClick={() => navigate('/bug')}>X</button>

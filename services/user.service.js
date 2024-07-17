@@ -68,6 +68,7 @@ function signup({ fullname, username, password }) {
 		fullname,
 		username,
 		password,
+		isAdmin: false
 	}
 	users.push(user)
 
